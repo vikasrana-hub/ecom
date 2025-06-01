@@ -9,7 +9,7 @@ function Productcard() {
   useEffect(() => {
     async function fetch() {
       try {
-        const res = await axios.get(`http://localhost:3001/api/user/product/${productid}`);
+        const res = await axios.get(`https://ecom-1-t5j1.onrender.com/api/user/product/${productid}`);
         setProduct(res.data);
       } catch (error) {
         console.error("Error fetching product data:", error);
