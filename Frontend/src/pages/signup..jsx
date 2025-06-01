@@ -36,7 +36,7 @@ export default function Signup() {
 
                 <button
                     onClick={async() => {
-                        const res =await axios.post("http://localhost:3001/api/user/signup", {
+                        const res =await axios.post("https://ecom-1-t5j1.onrender.com/api/user/signup", {
                         firstname: firstname,
                         email: email,
                         password: password
