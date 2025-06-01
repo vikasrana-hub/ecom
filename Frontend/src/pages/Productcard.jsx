@@ -38,7 +38,7 @@ function Productcard() {
             <p className="text-gray-700">{product.description}</p>
             <button
               onClick={async () => {
-                await axios.post(`http://localhost:3001/api/user/cart/${productid}`,{}, {
+                await axios.post(`https://ecom-1-t5j1.onrender.com/api/user/cart/${productid}`,{}, {
 
                   headers: {
                     authorization: window.localStorage.getItem('token')
