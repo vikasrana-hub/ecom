@@ -10,7 +10,7 @@ export const CheckoutForm = () => {
     useEffect(()=>{
         async function fetchCart() {
             try {
-                const res = await axios.get('http://localhost:3001/api/user/cart',{
+                const res = await axios.get('https://ecom-1-t5j1.onrender.com/api/user/cart',{
                     headers:{
                         authorization:window.localStorage.getItem('token')
                     }
@@ -33,7 +33,7 @@ export const CheckoutForm = () => {
     const totalamount = total + 25 + taxes;
     
         async function update() {
-            await axios.put('http://localhost:3001/api/user/order',{
+            await axios.put('https://ecom-1-t5j1.onrender.com/api/user/order',{
                 productid:cart.map((items)=>items.product_id)
             },{
                 headers:{
