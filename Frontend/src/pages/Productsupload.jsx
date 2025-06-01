@@ -42,7 +42,7 @@ function Productsupload() {
 
                     <Button label={"Upload Product"}
                         onClick={async()=>{
-                            await axios.post("http://localhost:3001/api/admin/uploadProduct", {
+                            await axios.post("https://ecom-1-t5j1.onrender.com/api/admin/uploadProduct", {
                         name: name,
                         price: price,
                         description: description,
