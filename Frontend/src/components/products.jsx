@@ -10,7 +10,7 @@ export default function Products() {
 
     async function fetch() {
       try {
-        const res = await axios.get('http://localhost:3001/api/user/products')
+        const res = await axios.get('https://ecom-1-t5j1.onrender.com/api/user/products')
         setProducts(res.data)
       } catch (error) {
         console.error("Error fetching products:", error);
