@@ -29,7 +29,7 @@ export default function Login(
 
         <button
           onClick={() => {
-            const res = axios.post("http://localhost:3001/api/user/login", {
+            const res = axios.post("https://ecom-1-t5j1.onrender.com/api/user/login", {
               email: email,
               password: password,
             })
