@@ -5,7 +5,7 @@ export default function UserProfileCard() {
     const [cart, setCart] = useState([])
     useEffect(() => {
         async function userFetch() {
-            const res = await axios.get("http://localhost:3001/api/user/profile", {
+            const res = await axios.get("https://ecom-1-t5j1.onrender.com/api/user/profile", {
                 headers: {
                     authorization: window.localStorage.getItem("token")
                 }
