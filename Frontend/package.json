@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-   "build": "vite build && copy public\\_redirects dist\\_redirects",
+    "build": "vite build && cp public/_redirects dist/_redirects",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -14,7 +14,7 @@
     "axios": "^1.9.0",
     "qrcode.react": "^4.2.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "react-dom": "^19.1.0"
     "react-qr-code": "^2.0.15",
     "react-router-dom": "^7.6.1",
     "tailwindcss": "^4.1.7"
