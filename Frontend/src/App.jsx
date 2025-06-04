@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from "react-toastify";
 import './App.css';
 import { Appbar } from './components/appbar';
 import { Footer } from './components/Footer';
@@ -15,6 +16,7 @@ import { ThankYou } from './pages/thanks';
 
 function App() {
   return (
+    <><ToastContainer/>
     <div className="flex flex-col min-h-screen">
       <BrowserRouter>
         <Appbar />
@@ -38,6 +40,7 @@ function App() {
         <Footer />
       </BrowserRouter>
     </div>
+    </>
   );
 }
 

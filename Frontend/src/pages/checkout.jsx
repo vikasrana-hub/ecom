@@ -1,69 +1,70 @@
 import axios from 'axios';
 import { useEffect, useMemo, useState } from 'react';
 import QRCode from 'react-qr-code';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const CheckoutForm = () => {
     const [address, setAddress] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('googlepay');
-    const [cart, setCart] = useState([])
+    const [cart, setCart] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
         async function fetchCart() {
             try {
-                const res = await axios.get('https://ecom-1-t5j1.onrender.com/api/user/cart',{
-                    headers:{
-                        authorization:window.localStorage.getItem('token')
+                const res = await axios.get('https://ecom-1-t5j1.onrender.com/api/user/cart', {
+                    headers: {
+                        authorization: window.localStorage.getItem('token')
                     }
-                })
-                console.log(res)
-                setCart(res.data.cart)
+                });
+                setCart(res.data.cart);
             } catch (error) {
-                console.error('Error fetching cart:', error);
-                
+                toast.error('Failed to fetch cart!');
             }
-            
         }
-        fetchCart()
-    },[])
-    const total = useMemo(()=>{
-        return cart.reduce((sum, items)=>
-            sum + items.price*1,0)},[cart]
-    )
+        fetchCart();
+    }, []);
+
+    const total = useMemo(() => {
+        return cart.reduce((sum, items) =>
+            sum + items.price * 1, 0)
+    }, [cart]);
+
     const taxes = total * 0.08;
     const totalamount = total + 25 + taxes;
-    
-        async function update() {
-            await axios.put('https://ecom-1-t5j1.onrender.com/api/user/order',{
-                productid:cart.map((items)=>items.product_id)
-            },{
-                headers:{
-                    authorization:window.localStorage.getItem('token')
+
+    async function updateOrder() {
+        try {
+            await axios.put('https://ecom-1-t5j1.onrender.com/api/user/order', {
+                productid: cart.map((items) => items.product_id)
+            }, {
+                headers: {
+                    authorization: window.localStorage.getItem('token')
                 }
-            })
+            });
+        } catch (error) {
+            toast.error("Failed to update order!");
         }
-    
-    const handlePay = () => {
+    }
+
+    const handlePay = async () => {
         if (!address.trim()) {
-            alert('Please enter your address.');
+            toast.warn('Please enter your address.');
             return;
         }
 
-
         if (paymentMethod === 'cod') {
-            update()
-            alert('Order placed with Cash on Delivery!');
-            window.location.href = '/user/thankyou'
-            
-
-
-        }
-        else{
-            alert('Please scan the QR code to complete your payment.');
+            await updateOrder();
+            toast.success('Order placed with Cash on Delivery!');
+            setTimeout(() => {
+                window.location.href = '/user/thankyou';
+            }, 2000);
+        } else {
+            toast.info('Please scan the QR code to complete your payment.');
         }
     };
 
-
-    const upiQRCodeValue = `upi://pay?pa=your-upi@bank&pn=YourName&am=642.60&cu=INR`;
+    const upiQRCodeValue = `upi://pay?pa=your-upi@bank&pn=YourName&am=${totalamount}&cu=INR`;
 
     return (
         <div className="min-h-screen bg-gradient-to-r from-blue-200 to-blue-400 p-6 flex justify-center items-center">
@@ -95,8 +96,8 @@ export const CheckoutForm = () => {
                                 key={method}
                                 onClick={() => setPaymentMethod(method)}
                                 className={`py-2 px-4 rounded-full border ${paymentMethod === method
-                                        ? 'bg-blue-600 text-white'
-                                        : 'bg-gray-100 text-gray-700'
+                                    ? 'bg-blue-600 text-white'
+                                    : 'bg-gray-100 text-gray-700'
                                     } hover:bg-blue-500 hover:text-white transition`}
                             >
                                 {method === 'googlepay' && 'Google Pay'}
@@ -125,6 +126,8 @@ export const CheckoutForm = () => {
                     >
                         Confirm Order
                     </button>
+
+                    <ToastContainer position="top-right" autoClose={2000} />
                 </div>
 
                 {/* Summary Section */}
@@ -133,13 +136,13 @@ export const CheckoutForm = () => {
 
                     <div className="space-y-4">
                         {cart.map((items) => (
-                        <div className="flex justify-between items-start">
-                            <div>
-                                <p>High Wall Tote</p>
-                                <p className="text-sm text-gray-300">{items.name}</p>
+                            <div key={items.product_id} className="flex justify-between items-start">
+                                <div>
+                                    <p>High Wall Tote</p>
+                                    <p className="text-sm text-gray-300">{items.name}</p>
+                                </div>
+                                <p>₹{items.price}</p>
                             </div>
-                            <p>₹{items.price}</p>
-                        </div>
                         ))}
                     </div>
 
